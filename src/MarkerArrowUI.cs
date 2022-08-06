@@ -9,6 +9,7 @@ public class MarkerArrowUI : MonoBehaviour
     private Vector2 _centerOffset;
     private Vector2 Center => (Vector2)transform.parent.position + _centerOffset;
     [SerializeField]
+    [Min(0f)]
     private float _radius;
 
     [SerializeField]
@@ -18,8 +19,8 @@ public class MarkerArrowUI : MonoBehaviour
 
     private MarkerUI _marker;
 
-    [SerializeField]
-    private float _lerpT = 0.1f;
+    [SerializeField][Range(0f, 1f)]
+    private float _damper = 0.1f;
 
     private void SetMarker(MarkerUI marker)
     {
@@ -67,7 +68,7 @@ public class MarkerArrowUI : MonoBehaviour
             angleDeg = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + _forwardAngle;
         }
 
-        angleDeg = Mathf.LerpAngle(oldAngleDeg, angleDeg, _lerpT);
+        angleDeg = Mathf.LerpAngle(oldAngleDeg, angleDeg, _damper);
 
         transform.rotation = Quaternion.AngleAxis(angleDeg, Vector3.forward);
 
